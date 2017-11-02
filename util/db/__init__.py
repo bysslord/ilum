@@ -4,4 +4,4 @@ __author__ = 'xiwei'
 
 from flask_sqlalchemy import SQLAlchemy
 
-session = SQLAlchemy()
+db = SQLAlchemy()
