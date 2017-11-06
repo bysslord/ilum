@@ -10,3 +10,5 @@ fmt = '%(asctime)s %(name)10s(%(process)5d) ' \
 install(fmt=fmt)
 
 log = logging.getLogger('ngalertd')
+
+trace = logging.getLogger('trace')

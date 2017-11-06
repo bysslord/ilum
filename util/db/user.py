@@ -26,8 +26,8 @@ class User(db.Model):
 
     @staticmethod
     def _gen_user_id():
-        return f'u{str(uuid4()).replace("", "")}'
+        return f'u{str(uuid4()).replace("-", "")[0:-2]}'
 
     @staticmethod
     def _encrypt_pwd(pwd):
-        return md5(pwd).hexdigit()
+        return md5(md5(str(pwd).encode('utf-8')).hexdigest().encode('utf-8')).hexdigest()
