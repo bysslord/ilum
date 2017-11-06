@@ -1,0 +1,4 @@
+coloredlogs==7.3
+Flask==0.12.2
+Flask-SQLAlchemy==2.3.2
+PyMySQL==0.7.11
