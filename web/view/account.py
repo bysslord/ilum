@@ -4,7 +4,7 @@
 __author__ = 'xiwei'
 
 from itsdangerous import TimedJSONWebSignatureSerializer, SignatureExpired, BadSignature
-from .. import app, Required, get_params, request, BaseError
+from .. import app, route, Required, get_params, request, BaseError
 from flask import jsonify
 from util.db.user import User
 from util.db import db
