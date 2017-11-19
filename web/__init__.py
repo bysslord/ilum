@@ -96,9 +96,15 @@ a = some(a)
 """
 
 
+_max_rule = 0
+
+
 def route(rule, **options):
 
     def decorator(f):
+
+        global _max_rule
+        _max_rule = max(_max_rule, len(rule))
 
         def wrapper(*args, **kwargs):
             """
@@ -109,7 +115,7 @@ def route(rule, **options):
             """
 
             request_id = str(uuid4())
-            path = request.path
+            path = request.path.rjust(_max_rule)
             method = str(request.method).rjust(6)
             currentThread().name = f'{request_id}:{method}:{path}:'
 
@@ -123,7 +129,7 @@ def route(rule, **options):
             try:
                 g.res.update(result=f(*args, **kwargs))
             except BaseError as be:
-                log.warn(f"Warning: {str(be)}")
+                log.error(f"{str(be)}")
                 g.res.update(
                     status=be.status_code,
                     error=be.message
@@ -132,6 +138,7 @@ def route(rule, **options):
             return jsonify(g.res)
 
         endpoint = options.pop('endpoint', f.__name__)
+        log.info(f'Route url {str(rule)} -> {f}')
         app.add_url_rule(rule, endpoint, wrapper, **options)
 
         return wrapper
