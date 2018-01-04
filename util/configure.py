@@ -14,3 +14,4 @@ _config.read([constant.CONF_FILE, ])
 
 GLOBAL = dict(_config.items('global'))
 DB = dict(_config.items('db'))
+REDIS = dict(_config.items('redis'))

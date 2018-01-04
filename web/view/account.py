@@ -4,15 +4,14 @@
 __author__ = 'xiwei'
 
 from itsdangerous import TimedJSONWebSignatureSerializer, SignatureExpired, BadSignature
-from .. import app, route, Required, get_params, request, BaseError
-from flask import jsonify
+from .. import app, Required, get_params, request, BaseError
 from util.db.user import User
 from util.db import db
 
 
 def generate_auth_token(user, expiration=600):
     s = TimedJSONWebSignatureSerializer(app.config['SECRET_KEY'], expires_in=expiration)
-    return s.dumps({'id': user.id})
+    return s.dumps({'id': user.id}).decode("utf-8")
 
 
 def auth(token) -> User:
@@ -72,4 +71,4 @@ def account_info():
 
     token = params.get('token')
     user = auth(token)
-    return jsonify(user_id=user.user_id, username=user.username)
+    return {'user_id': user.user_id, 'username': user.username}
