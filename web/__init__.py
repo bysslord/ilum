@@ -61,14 +61,6 @@ class ArgumentCastError(BaseError):
         return f'Argument {self.name} is not casted by {self.cast} because {self.exc}'
 
 
-class Parameter(tuple):
-    def __init__(self, name, cast=str, attr=Optional, default=None):
-        super().__init__()
-
-    def __new__(cls, name, cast=str, attr=Optional, default=None):
-        return super(Parameter, cls).__new__(cls, tuple())
-
-
 def get_params(params: tuple, data=None) -> dict:
     """
     :param params: sdf

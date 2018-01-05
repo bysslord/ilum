@@ -2,12 +2,14 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiwei'
 
-from . import db, as_dict
+from . import db, as_dict, BaseQuery
 from uuid import uuid4
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(db.Model):
+
+    query: BaseQuery
 
     __tablename__ = 't_user'
 

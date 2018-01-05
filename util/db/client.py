@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiwei'
 
-from . import db, as_dict
+from . import db, as_dict, BaseQuery
 from uuid import uuid4
 
 
 class Client(db.Model):
+
+    query: BaseQuery
 
     __tablename__ = 't_client'
 
@@ -18,11 +20,11 @@ class Client(db.Model):
     def __init__(self, name, owner):
         self.name = name
         self.owner = owner
-        self.client_id = self._gen_client_id()
+        self.client_id = self.gen_client_id()
 
     def as_dict(self):
         return as_dict(self)
 
     @staticmethod
-    def _gen_client_id():
+    def gen_client_id():
         return f'c{str(uuid4()).replace("-", "")[0:-2]}'

@@ -7,9 +7,10 @@ from util.logger import log
 
 
 class ServerError(Exception):
-    def __init__(self, status, message):
+    def __init__(self, status, message, request_id):
         self.status = status
         self.message = message
+        self.request_id = request_id
 
 
 class NgAlertD(object):
@@ -35,26 +36,37 @@ class NgAlertD(object):
             return None
         else:
             if res.get('status') != 200:
-                raise ServerError(res.get('status'), res.get('error'))
+                raise ServerError(res.get('status'), res.get('error'), res.get('request_id'))
             return res.get('result')
 
     def is_login(self):
         print(self.account_info())
 
     def account_login(self):
-        return self._request(
+        self.token = self._request(
             'account/login',
             data={
                 "username": self.username,
                 "password": self.password
             }
         )
+        return self.token
 
     def account_info(self):
         return self._request(
             'account/info',
             data={
                 "token": self.token
+            }
+        )
+
+    def client_config(self, name, replace=0):
+        return self._request(
+            'client/config',
+            params={
+                "token": self.token,
+                "name": name,
+                "replace": replace
             }
         )
 
