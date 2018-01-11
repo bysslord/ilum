@@ -14,3 +14,6 @@ log = logging.getLogger('ngalertd')
 trace = logging.getLogger('trace')
 
 logging.getLogger('werkzeug').setLevel(logging.ERROR)
+
+logging.getLogger('geventwebsocket.handler').setLevel(logging.ERROR)
+logging.getLogger('engineio').setLevel(logging.ERROR)

@@ -9,7 +9,7 @@ from util.db.user import User
 from util.db import db
 
 
-@app.route('/account/register', methods=['POST'])
+@app.route('/api/v1/account/register', methods=['POST'])
 def account_register():
     params = get_params(
         (
@@ -27,7 +27,7 @@ def account_register():
     return auth.generate_auth_token(user)
 
 
-@app.route('/account/login', methods=['POST'])
+@app.route('/api/v1/account/login', methods=['POST'])
 def account_login():
     params = get_params(
         (
@@ -44,7 +44,7 @@ def account_login():
     return auth.generate_auth_token(user)
 
 
-@app.route('/account/info', methods=['POST'])
+@app.route('/api/v1/account/info', methods=['POST'])
 @auth.token
 def account_info():
     params = get_params(

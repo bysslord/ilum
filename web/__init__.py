@@ -2,17 +2,16 @@
 # -*- coding: utf-8 -*-
 __author__ = 'xiwei'
 
-from flask import Flask, request, jsonify, g, session
+from flask import Flask, request, jsonify, g, make_response, Response
 from util.configure import DB
 from util.logger import log, trace
-from util.session import RedisSessionInterface
 
 from traceback import format_exc
 from threading import currentThread
 from uuid import uuid4
 import time
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='public/templates', static_folder='public/static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DB.get('url')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -139,7 +138,10 @@ def route(rule, **options):
             }
 
             try:
-                g.res.update(result=f(*args, **kwargs))
+                response = f(*args, **kwargs)
+                if not request.path.startswith('/api'):
+                    return make_response(response, {'X-Request-ID': request_id})
+                g.res.update(result=response)
             except BaseError as be:
                 log.error(f"{str(be)}")
                 g.res.update(
@@ -162,6 +164,12 @@ def route(rule, **options):
 
 
 app.route = route
+
+
+@app.after_request
+def no_cache(response: Response):
+    response.cache_control.no_cache = True
+    return response
 
 
 @app.errorhandler(Exception)

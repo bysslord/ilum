@@ -8,7 +8,7 @@ from util.db.user import User
 from flask import request
 
 
-@app.route('/mqtt/auth', methods=['POST'])
+@app.route('/api/v1/mqtt/auth', methods=['POST'])
 def mqtt_auth():
     username, password, client_id = request.form['username'], request.form['password'], request.form['clientid']
     log.info(f'Login with user:{username} - client:{client_id}')
@@ -19,6 +19,6 @@ def mqtt_auth():
         return 'password error', 401
 
 
-@app.route('/mqtt/acl')
+@app.route('/api/v1/mqtt/acl')
 def mqtt_acl():
     return 'ok'

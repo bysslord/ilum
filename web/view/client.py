@@ -8,7 +8,7 @@ from util.db.client import Client, db
 from util.db.user import User
 
 
-@app.route('/client/config', methods=['GET', 'POST'])
+@app.route('/api/v1/client/config', methods=['GET', 'POST'])
 @auth.token
 def client_info():
     """
